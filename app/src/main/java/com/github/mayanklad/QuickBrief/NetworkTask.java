@@ -166,10 +166,14 @@ public class NetworkTask extends AsyncTask<Object, Void, Object> {
             boolean found_average_rating = false;
             boolean found_num_pages = false;
             boolean found_format = false;
+            boolean found_comments_url = false;
             boolean found_authors = false;
+            boolean similar_books_tag = false;
+            int similarBooksCount = 0;
 
             try {
                 event = parser.getEventType();
+                String[][] similarBooks = new String[4][3];
                 while (event != XmlPullParser.END_DOCUMENT){
                     String name;
                     switch (event){
@@ -219,17 +223,37 @@ public class NetworkTask extends AsyncTask<Object, Void, Object> {
                             } else if (name.equals("format") && !found_format) {
                                 book.setFormat(parser.nextText());
                                 found_format = true;
+                            } else if(name.equals("reviews_widget") && !found_comments_url){
+                                String str = parser.nextText();
+                                book.setComments_url(str);
+                                //Log.i(TAG, "Comments widget:"+str);
+                                found_comments_url = true;
                             } else if (!found_authors) {
                                 if (name.equals("name")) {
                                     book.addAuthor(parser.nextText());
                                 }
+                            } else if (name.equals("similar_books")) {
+                                similar_books_tag = true;
+                            } else if (name.equals("id") && similar_books_tag) {
+                                similarBooks[similarBooksCount][0] = parser.nextText(); // Similar book id
+                            } else if (name.equals("title") && similar_books_tag) {
+                                similarBooks[similarBooksCount][1] = parser.nextText(); //Similar book title
+                            } else if (name.equals("image_url") && similar_books_tag) {
+                                similarBooks[similarBooksCount][2] = parser.nextText(); //Similar book image url
                             }
                             break;
                         case XmlPullParser.END_TAG:
                             name = parser.getName();
                             if (name.equals("authors")) {
                                 found_authors = true;
+                                //end_parsing = true;
+                            } else if (name.equals("reviews_widget")) {
                                 end_parsing = true;
+                            } else if (name.equals("book") && similar_books_tag) {
+                                similarBooksCount++;
+                            } else if (name.equals("similar_books") || similarBooksCount == 4 ) {
+                                similar_books_tag = false;
+                                book.setSimilarBooks(similarBooks);
                             }
                     }
                     if (end_parsing) {

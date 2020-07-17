@@ -1,17 +1,13 @@
 package com.github.mayanklad.QuickBrief;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Books {
     private String book_id;
-
-    public Books() {
-        this.authors = new ArrayList<String>();
-    }
-
     private String title;
     private String isbn;
     private String isbn13;
@@ -27,6 +23,43 @@ public class Books {
     private String average_rating;
     private String num_pages;
     private String format;
+    private String comments_url = "";
+    private ArrayList<String> authors;
+    private String[][] similarBooks;
+
+    private static final String TAG = "Books";
+
+    public Books() {
+        this.authors = new ArrayList<String>();
+        this.similarBooks = new String[4][2];
+    }
+
+    public String[][] getSimilarBooks() {
+        return similarBooks;
+    }
+
+    public void setSimilarBooks(String[][] similarBooks) {
+        this.similarBooks = similarBooks;
+    }
+
+    public String getComments_url() {
+        return comments_url;
+    }
+
+    public void setComments_url(String comments_url) {
+        Log.i(TAG, "Comments widget:"+comments_url);
+
+        for (int i=comments_url.indexOf("<iframe id=")+29; true; i++) {
+            if (comments_url.charAt(i) == '\"') {
+                break;
+            } else {
+                this.comments_url += comments_url.charAt(i);
+            }
+        }
+        Log.i(TAG, "Comments url:"+this.comments_url);
+        //this.comments_url = comments_url;
+
+    }
 
     public String getDescription() {
         return description;
@@ -43,8 +76,6 @@ public class Books {
     public void setFormat(String format) {
         this.format = format;
     }
-
-    private ArrayList<String> authors;
 
     public String getBook_id() {
         return book_id;

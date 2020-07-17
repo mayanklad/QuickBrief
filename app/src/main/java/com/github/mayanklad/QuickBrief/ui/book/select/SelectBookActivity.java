@@ -2,7 +2,6 @@ package com.github.mayanklad.QuickBrief.ui.book.select;
 
 import android.animation.ArgbEvaluator;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,13 +14,6 @@ import com.github.mayanklad.QuickBrief.R;
 import com.github.mayanklad.QuickBrief.ui.book.display.DisplayBookActivity;
 import com.github.mayanklad.QuickBrief.ui.ocr.OcrActivity;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectBookActivity extends AppCompatActivity {

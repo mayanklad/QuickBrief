@@ -16,4 +16,7 @@
     <string name="star_image">star_image</string>
     <string name="exit">Exit</string>
     <string name="exit_message">Are you sure?</string>
+    <string name="title_activity_display_book">DisplayBookActivity</string>
+    <string name="tab_text_1">Details</string>
+    <string name="tab_text_2">Comments</string>
 </resources>
